@@ -50,24 +50,24 @@ export default function FilterSidebar({ filters, onChange, resultCounts }: Props
   );
 
   return (
-    <div className="w-72 shrink-0 bg-white border-r min-h-screen p-4">
+    <div className="w-72 shrink-0 glass-card rounded-2xl p-5 border border-gray-100 sticky top-24 self-start">
       <div className="space-y-6">
         <div>
-          <h4 className="text-sm font-semibold text-gray-700 mb-2">Decision</h4>
-          <div className="space-y-1">
+          <h4 className="text-xs uppercase tracking-wider font-semibold text-gray-400 mb-3">Decision</h4>
+          <div className="space-y-2">
             {decisionOptions.map((decision) => (
               <label
                 key={decision}
-                className="flex items-center gap-2 text-sm text-gray-600 cursor-pointer"
+                className="flex items-center gap-2.5 text-sm text-gray-600 cursor-pointer"
               >
                 <input
                   type="checkbox"
                   checked={filters.decisions.includes(decision)}
                   onChange={() => toggleDecision(decision)}
-                  className="rounded border-gray-300"
+                  className="accent-cyan-600 rounded"
                 />
                 <span className="capitalize">{decision}</span>
-                <span className="text-xs text-gray-400 ml-auto">
+                <span className="text-xs text-gray-400 ml-auto font-medium">
                   {resultCounts.decisions[decision] ?? 0}
                 </span>
               </label>
@@ -76,42 +76,42 @@ export default function FilterSidebar({ filters, onChange, resultCounts }: Props
         </div>
 
         <div>
-          <h4 className="text-sm font-semibold text-gray-700 mb-2">Category</h4>
-          <div className="space-y-1">
+          <h4 className="text-xs uppercase tracking-wider font-semibold text-gray-400 mb-3">Category</h4>
+          <div className="space-y-2">
             {nonZeroCategories.map(([category, count]) => (
               <label
                 key={category}
-                className="flex items-center gap-2 text-sm text-gray-600 cursor-pointer"
+                className="flex items-center gap-2.5 text-sm text-gray-600 cursor-pointer"
               >
                 <input
                   type="checkbox"
                   checked={filters.categories.includes(category as MisuseCategory)}
                   onChange={() => toggleCategory(category as MisuseCategory)}
-                  className="rounded border-gray-300"
+                  className="accent-cyan-600 rounded"
                 />
                 <span>{categoryLabels[category] ?? category}</span>
-                <span className="text-xs text-gray-400 ml-auto">{count}</span>
+                <span className="text-xs text-gray-400 ml-auto font-medium">{count}</span>
               </label>
             ))}
           </div>
         </div>
 
         <div>
-          <h4 className="text-sm font-semibold text-gray-700 mb-2">Severity</h4>
-          <div className="space-y-1">
+          <h4 className="text-xs uppercase tracking-wider font-semibold text-gray-400 mb-3">Severity</h4>
+          <div className="space-y-2">
             {severityOptions.map((severity) => (
               <label
                 key={severity}
-                className="flex items-center gap-2 text-sm text-gray-600 cursor-pointer"
+                className="flex items-center gap-2.5 text-sm text-gray-600 cursor-pointer"
               >
                 <input
                   type="checkbox"
                   checked={filters.severities.includes(severity)}
                   onChange={() => toggleSeverity(severity)}
-                  className="rounded border-gray-300"
+                  className="accent-cyan-600 rounded"
                 />
                 <span className="capitalize">{severity}</span>
-                <span className="text-xs text-gray-400 ml-auto">
+                <span className="text-xs text-gray-400 ml-auto font-medium">
                   {resultCounts.severities[severity] ?? 0}
                 </span>
               </label>
@@ -120,13 +120,13 @@ export default function FilterSidebar({ filters, onChange, resultCounts }: Props
         </div>
 
         <div>
-          <h4 className="text-sm font-semibold text-gray-700 mb-2">Search</h4>
+          <h4 className="text-xs uppercase tracking-wider font-semibold text-gray-400 mb-3">Search</h4>
           <input
             type="text"
             value={filters.search}
             onChange={(e) => onChange({ ...filters, search: e.target.value })}
             placeholder="Search traces..."
-            className="w-full border border-gray-300 rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-shadow"
           />
         </div>
       </div>

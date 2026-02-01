@@ -6,7 +6,7 @@ export default function LoadingSpinner({ message }: LoadingSpinnerProps) {
   return (
     <div className="flex flex-col items-center justify-center py-12 gap-3">
       <svg
-        className="animate-spin h-8 w-8 text-blue-600"
+        className="animate-spin h-8 w-8 text-cyan-500"
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
@@ -25,7 +25,7 @@ export default function LoadingSpinner({ message }: LoadingSpinnerProps) {
           d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
         />
       </svg>
-      {message && <p className="text-sm text-gray-500">{message}</p>}
+      {message && <p className="text-sm text-gray-500 animate-pulse">{message}</p>}
     </div>
   );
 }

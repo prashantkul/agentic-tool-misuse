@@ -104,22 +104,27 @@ export default function CollectionResults() {
       : 0;
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-2">
-        Collection: {data.collection_id}
-      </h1>
+    <div className="space-y-6">
+      <div className="gradient-hero rounded-2xl p-8">
+        <h1 className="text-3xl font-bold text-gray-900">
+          Collection Results
+        </h1>
+        <p className="text-gray-500 mt-1 font-mono text-sm">
+          {data.collection_id}
+        </p>
+      </div>
 
       {data.status === "running" && (
-        <div className="mb-6">
-          <div className="flex items-center justify-between text-sm text-gray-600 mb-1">
-            <span>Analyzing traces...</span>
-            <span>
+        <div className="glass-card rounded-2xl p-6 border border-gray-100">
+          <div className="flex items-center justify-between text-sm text-gray-600 mb-2">
+            <span className="font-medium">Analyzing traces...</span>
+            <span className="font-semibold text-gray-800">
               {data.analyzed_count} / {data.total_count}
             </span>
           </div>
-          <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+          <div className="w-full h-2.5 bg-gray-200 rounded-2xl overflow-hidden">
             <div
-              className="h-full bg-blue-600 rounded-full transition-all duration-300"
+              className="h-full bg-gradient-to-r from-cyan-500 to-teal-500 rounded-2xl transition-all duration-300"
               style={{ width: `${progress}%` }}
             />
           </div>

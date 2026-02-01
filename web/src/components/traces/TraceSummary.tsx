@@ -87,7 +87,7 @@ function SectionPanel({ section }: { section: Section }) {
       {open && (
         <div className="mt-2">
           {isToolSequence ? (
-            <pre className="text-xs text-gray-600 bg-gray-50 p-3 rounded overflow-x-auto">
+            <pre className="text-xs text-gray-600 bg-slate-50 border border-gray-100 p-3 rounded-lg overflow-x-auto font-mono leading-relaxed">
               {section.content}
             </pre>
           ) : (
@@ -109,8 +109,8 @@ export default function TraceSummary({ summary }: Props) {
   const sections = parseSections(summary);
 
   return (
-    <div className="bg-white rounded-lg shadow-sm p-6">
-      <h3 className="text-lg font-semibold mb-4">Trace Summary</h3>
+    <div className="glass-card rounded-xl p-4 border border-gray-100">
+      <h3 className="text-xs uppercase tracking-wider font-semibold text-gray-400 mb-4">Trace Summary</h3>
       {sections.map((section, idx) => (
         <SectionPanel key={idx} section={section} />
       ))}

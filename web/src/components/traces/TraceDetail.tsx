@@ -35,11 +35,11 @@ export default function TraceDetail({ traceId, onClose }: Props) {
     return (
       <>
         <div
-          className="fixed inset-0 bg-black/20 z-40"
+          className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40"
           onClick={handleClose}
         />
         <div
-          className={`fixed top-0 right-0 w-[600px] h-full bg-white shadow-xl border-l overflow-y-auto z-50 transition-transform duration-200 ${
+          className={`fixed top-0 right-0 w-[600px] h-full bg-slate-50 shadow-xl border-l border-gray-200 overflow-y-auto z-50 transition-transform duration-200 ${
             visible ? "translate-x-0" : "translate-x-full"
           }`}
         >
@@ -96,7 +96,7 @@ function PanelContent({
     <div className="p-6 space-y-6">
       <div className="flex items-start justify-between">
         <div>
-          <h2 className="font-mono text-sm text-gray-600 break-all">
+          <h2 className="font-mono text-sm text-gray-500 break-all">
             {traceId}
           </h2>
           <div className="mt-2">
@@ -106,19 +106,21 @@ function PanelContent({
         {onClose && (
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 text-xl leading-none"
+            className="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors"
           >
-            &times;
+            <svg className="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
           </button>
         )}
       </div>
 
-      <div>
-        <h3 className="text-sm font-semibold text-gray-700 mb-1">Metadata</h3>
+      <div className="glass-card rounded-xl p-4 border border-gray-100">
+        <h3 className="text-xs uppercase tracking-wider font-semibold text-gray-400 mb-2">Metadata</h3>
         <p className="text-sm text-gray-600">
           <span className="text-gray-400">Agent:</span> {data.trace.agent_id}
         </p>
-        <div className="mt-1">
+        <div className="mt-2">
           <span className="text-sm text-gray-400">Task:</span>
           <p className="text-sm text-gray-600 mt-0.5">
             {isLongTask && !taskExpanded
@@ -128,7 +130,7 @@ function PanelContent({
           {isLongTask && (
             <button
               onClick={() => setTaskExpanded(!taskExpanded)}
-              className="text-xs text-blue-600 hover:text-blue-800 mt-1"
+              className="text-xs text-cyan-600 hover:text-cyan-700 mt-1 font-medium transition-colors"
             >
               {taskExpanded ? "Show less" : "Show more"}
             </button>
@@ -138,15 +140,15 @@ function PanelContent({
 
       <TraceSummary summary={data.summary} />
 
-      <div>
-        <h3 className="text-sm font-semibold text-gray-700 mb-2">
+      <div className="glass-card rounded-xl p-4 border border-gray-100">
+        <h3 className="text-xs uppercase tracking-wider font-semibold text-gray-400 mb-3">
           Rule Alerts
         </h3>
         <RuleAlertsTable verdicts={data.analysis.rule_verdicts} />
       </div>
 
       <div>
-        <h3 className="text-sm font-semibold text-gray-700 mb-2">
+        <h3 className="text-xs uppercase tracking-wider font-semibold text-gray-400 mb-3">
           Judge Verdict
         </h3>
         <JudgeVerdictPanel verdict={data.analysis.judge_verdict} />

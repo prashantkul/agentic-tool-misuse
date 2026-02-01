@@ -76,8 +76,15 @@ export default function CategoryChart({ categories }: Props) {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm p-6">
-      <h3 className="text-lg font-semibold mb-4">Categories</h3>
+    <div className="glass-card rounded-2xl p-6 border border-gray-100">
+      <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+        <span className="w-5 h-5 rounded bg-gradient-to-br from-orange-500 to-orange-600 inline-flex items-center justify-center">
+          <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A2 2 0 013 12V7a4 4 0 014-4z" />
+          </svg>
+        </span>
+        Categories
+      </h3>
       {filtered.length > 0 ? (
         <Bar data={data} options={options} />
       ) : (

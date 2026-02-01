@@ -6,9 +6,9 @@ interface VerdictBadgeProps {
 }
 
 const colorMap: Record<Decision, string> = {
-  allow: "bg-green-100 text-green-800",
-  warn: "bg-yellow-100 text-yellow-800",
-  block: "bg-red-100 text-red-800",
+  allow: "bg-emerald-100 text-emerald-700 border border-emerald-200",
+  warn: "bg-amber-100 text-amber-700 border border-amber-200",
+  block: "bg-red-100 text-red-700 border border-red-200",
 };
 
 const sizeMap: Record<string, string> = {
@@ -20,7 +20,7 @@ const sizeMap: Record<string, string> = {
 export default function VerdictBadge({ decision, size = "md" }: VerdictBadgeProps) {
   return (
     <span
-      className={`rounded-full font-medium ${colorMap[decision]} ${sizeMap[size]}`}
+      className={`rounded-full font-semibold ${colorMap[decision]} ${sizeMap[size]}`}
     >
       {decision.toUpperCase()}
     </span>

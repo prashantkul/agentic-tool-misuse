@@ -13,7 +13,12 @@ export default function Collections() {
 
   if (error) {
     return (
-      <div className="text-center py-12">
+      <div className="glass-card rounded-2xl p-8 border border-red-200 text-center">
+        <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-red-400 to-rose-500 flex items-center justify-center shadow-lg mx-auto mb-4">
+          <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
         <h2 className="text-lg font-semibold text-red-700 mb-2">
           Failed to load collections
         </h2>
@@ -28,11 +33,13 @@ export default function Collections() {
   }
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-1">Collections</h1>
-      <p className="text-gray-500 mb-6">
-        Browse and analyze agent trace collections.
-      </p>
+    <div className="space-y-8">
+      <div className="gradient-hero rounded-2xl p-8">
+        <h1 className="text-3xl font-bold text-gray-900">Collections</h1>
+        <p className="text-gray-500 mt-2">
+          Browse and analyze agent trace collections.
+        </p>
+      </div>
       <CollectionList collections={collections ?? []} />
     </div>
   );

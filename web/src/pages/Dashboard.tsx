@@ -35,16 +35,19 @@ export default function Dashboard() {
   }
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-6">Dashboard</h1>
+    <div className="space-y-8">
+      <div className="gradient-hero rounded-2xl p-8">
+        <h1 className="text-3xl font-bold text-gray-900">Tool Misuse Dashboard</h1>
+        <p className="text-gray-500 mt-2">
+          Monitor and analyze agent tool call patterns for security threats.
+        </p>
+      </div>
       <MetricsCards stats={stats} />
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <DecisionChart decisions={stats.decisions} />
         <CategoryChart categories={stats.categories} />
       </div>
-      <div className="mt-6">
-        <RecentAnalyses analyses={stats.recent_analyses} />
-      </div>
+      <RecentAnalyses analyses={stats.recent_analyses} />
     </div>
   );
 }
