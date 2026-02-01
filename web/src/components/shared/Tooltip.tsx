@@ -1,4 +1,5 @@
-import type { ReactNode } from "react";
+import { type ReactNode, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 
 interface TooltipProps {
   text: string;
@@ -7,27 +8,50 @@ interface TooltipProps {
 }
 
 export default function Tooltip({ text, children, position = "top" }: TooltipProps) {
-  const positionClasses =
-    position === "top"
-      ? "bottom-full left-1/2 -translate-x-1/2 mb-2"
-      : "top-full left-1/2 -translate-x-1/2 mt-2";
+  const [visible, setVisible] = useState(false);
+  const triggerRef = useRef<HTMLSpanElement>(null);
+  const [coords, setCoords] = useState({ top: 0, left: 0 });
 
-  const arrowClasses =
-    position === "top"
-      ? "top-full left-1/2 -translate-x-1/2 border-t-gray-900"
-      : "bottom-full left-1/2 -translate-x-1/2 border-b-gray-900";
+  const show = () => {
+    if (!triggerRef.current) return;
+    const rect = triggerRef.current.getBoundingClientRect();
+    const tooltipWidth = 288;
+    let left = rect.left + rect.width / 2 - tooltipWidth / 2;
+    left = Math.max(8, Math.min(left, window.innerWidth - tooltipWidth - 8));
+
+    setCoords({
+      top: position === "top" ? rect.top - 8 : rect.bottom + 8,
+      left,
+    });
+    setVisible(true);
+  };
 
   return (
-    <span className="relative group/tooltip inline-flex">
-      {children}
+    <>
       <span
-        className={`absolute ${positionClasses} w-56 px-3 py-2 text-xs leading-relaxed font-normal text-gray-100 bg-gray-900 rounded-lg opacity-0 group-hover/tooltip:opacity-100 transition-opacity duration-200 pointer-events-none z-50 shadow-lg`}
+        ref={triggerRef}
+        onMouseEnter={show}
+        onMouseLeave={() => setVisible(false)}
+        className="inline-flex"
       >
-        {text}
-        <span
-          className={`absolute ${arrowClasses} border-4 border-transparent`}
-        />
+        {children}
       </span>
-    </span>
+      {visible &&
+        createPortal(
+          <div
+            style={{
+              position: "fixed",
+              top: coords.top,
+              left: coords.left,
+              width: 288,
+              transform: position === "top" ? "translateY(-100%)" : undefined,
+            }}
+            className="px-3 py-2.5 text-xs leading-relaxed font-normal text-gray-100 bg-gray-900 rounded-lg z-[9999] shadow-xl pointer-events-none"
+          >
+            {text}
+          </div>,
+          document.body,
+        )}
+    </>
   );
 }
