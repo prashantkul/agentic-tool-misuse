@@ -35,7 +35,7 @@ export default function Collections() {
   return (
     <div className="space-y-8">
       <div className="gradient-hero rounded-2xl p-8">
-        <h1 className="text-3xl font-bold text-gray-900">Collections</h1>
+        <h1 className="text-3xl font-bold text-gray-900" style={{ fontFamily: "'Audiowide', cursive" }}>Collections</h1>
         <p className="text-gray-500 mt-2">
           Browse and analyze agent trace collections.
         </p>

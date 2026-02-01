@@ -37,7 +37,7 @@ export default function Dashboard() {
   return (
     <div className="space-y-8">
       <div className="gradient-hero rounded-2xl p-8">
-        <h1 className="text-3xl font-bold text-gray-900">Tool Misuse Dashboard</h1>
+        <h1 className="text-3xl font-bold text-gray-900" style={{ fontFamily: "'Audiowide', cursive" }}>Tool Misuse Dashboard</h1>
         <p className="text-gray-500 mt-2">
           Monitor and analyze agent tool call patterns for security threats.
         </p>

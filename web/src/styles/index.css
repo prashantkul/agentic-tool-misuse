@@ -1,9 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&family=Montserrat:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
 body {
   @apply bg-slate-50 text-gray-800 antialiased;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  letter-spacing: 0.01em;
 }
 
 /* Glass card effect */
@@ -24,7 +26,7 @@ body {
 
 /* Gradient backgrounds */
 .gradient-header {
-  background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 50%, #14b8a6 100%);
+  background: linear-gradient(135deg, #2563eb 0%, #3b82f6 40%, #0ea5e9 100%);
 }
 
 .gradient-hero {

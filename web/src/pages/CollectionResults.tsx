@@ -106,7 +106,7 @@ export default function CollectionResults() {
   return (
     <div className="space-y-6">
       <div className="gradient-hero rounded-2xl p-8">
-        <h1 className="text-3xl font-bold text-gray-900">
+        <h1 className="text-3xl font-bold text-gray-900" style={{ fontFamily: "'Audiowide', cursive" }}>
           Collection Results
         </h1>
         <p className="text-gray-500 mt-1 font-mono text-sm">
