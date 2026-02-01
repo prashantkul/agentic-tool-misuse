@@ -1,0 +1,22 @@
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+.venv/
+venv/
+.env
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+*.lock
+
+# Frontend
+web/node_modules/
+web/dist/
+
+# IDE / tools
+.claude/
