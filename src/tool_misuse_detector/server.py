@@ -42,7 +42,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-  title="Tool Misuse Detector",
+  title="Agentic ToolWatch",
   version="0.1.0",
   description="Real-time detection of tool misuse in LLM coding agents",
   lifespan=lifespan,

@@ -167,7 +167,7 @@ def serve(
   """Start the real-time monitoring server."""
   import uvicorn
 
-  console.print(f"[bold]Starting Tool Misuse Detector server on {host}:{port}[/bold]")
+  console.print(f"[bold]Starting Agentic ToolWatch server on {host}:{port}[/bold]")
   uvicorn.run(
     "tool_misuse_detector.server:app",
     host=host,

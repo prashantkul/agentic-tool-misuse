@@ -27,7 +27,7 @@ export default function Header() {
                 </svg>
               </div>
               <span className="text-3xl text-white tracking-wider drop-shadow-md" style={{ fontFamily: "'Audiowide', cursive" }}>
-                Tool Misuse Detector
+                ToolWatch
               </span>
             </Link>
             <nav className="flex gap-1">

@@ -1,4 +1,4 @@
-# Agentic Tool Misuse Detector
+# Agentic ToolWatch
 
 Detect and analyze tool misuse in LLM coding agents. Combines heuristic rules with an LLM-as-judge (Claude) to classify agent tool call sequences as **ALLOW**, **WARN**, or **BLOCK**.
 
