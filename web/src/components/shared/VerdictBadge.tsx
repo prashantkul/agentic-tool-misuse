@@ -1,4 +1,6 @@
 import type { Decision } from "../../types";
+import { decisionTooltips } from "../../constants/tooltips";
+import Tooltip from "./Tooltip";
 
 interface VerdictBadgeProps {
   decision: Decision;
@@ -19,10 +21,12 @@ const sizeMap: Record<string, string> = {
 
 export default function VerdictBadge({ decision, size = "md" }: VerdictBadgeProps) {
   return (
-    <span
-      className={`rounded-full font-semibold ${colorMap[decision]} ${sizeMap[size]}`}
-    >
-      {decision.toUpperCase()}
-    </span>
+    <Tooltip text={decisionTooltips[decision]}>
+      <span
+        className={`rounded-full font-semibold cursor-help ${colorMap[decision]} ${sizeMap[size]}`}
+      >
+        {decision.toUpperCase()}
+      </span>
+    </Tooltip>
   );
 }

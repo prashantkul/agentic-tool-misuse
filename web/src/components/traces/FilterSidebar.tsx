@@ -1,4 +1,6 @@
 import type { Decision, FilterState, MisuseCategory, Severity } from "../../types";
+import { decisionTooltips, categoryTooltips, severityTooltips } from "../../constants/tooltips";
+import Tooltip from "../shared/Tooltip";
 
 interface Props {
   filters: FilterState;
@@ -66,7 +68,9 @@ export default function FilterSidebar({ filters, onChange, resultCounts }: Props
                   onChange={() => toggleDecision(decision)}
                   className="accent-cyan-600 rounded"
                 />
-                <span className="capitalize">{decision}</span>
+                <Tooltip text={decisionTooltips[decision]} position="bottom">
+                  <span className="capitalize cursor-help border-b border-dashed border-gray-300">{decision}</span>
+                </Tooltip>
                 <span className="text-xs text-gray-400 ml-auto font-medium">
                   {resultCounts.decisions[decision] ?? 0}
                 </span>
@@ -89,7 +93,9 @@ export default function FilterSidebar({ filters, onChange, resultCounts }: Props
                   onChange={() => toggleCategory(category as MisuseCategory)}
                   className="accent-cyan-600 rounded"
                 />
-                <span>{categoryLabels[category] ?? category}</span>
+                <Tooltip text={categoryTooltips[category] ?? category} position="bottom">
+                  <span className="cursor-help border-b border-dashed border-gray-300">{categoryLabels[category] ?? category}</span>
+                </Tooltip>
                 <span className="text-xs text-gray-400 ml-auto font-medium">{count}</span>
               </label>
             ))}
@@ -110,7 +116,9 @@ export default function FilterSidebar({ filters, onChange, resultCounts }: Props
                   onChange={() => toggleSeverity(severity)}
                   className="accent-cyan-600 rounded"
                 />
-                <span className="capitalize">{severity}</span>
+                <Tooltip text={severityTooltips[severity]} position="bottom">
+                  <span className="capitalize cursor-help border-b border-dashed border-gray-300">{severity}</span>
+                </Tooltip>
                 <span className="text-xs text-gray-400 ml-auto font-medium">
                   {resultCounts.severities[severity] ?? 0}
                 </span>

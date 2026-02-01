@@ -1,4 +1,6 @@
 import type { StatsData } from "../../types";
+import { metricCardTooltips } from "../../constants/tooltips";
+import Tooltip from "../shared/Tooltip";
 
 interface Props {
   stats: StatsData;
@@ -89,7 +91,11 @@ export default function MetricsCards({ stats }: Props) {
               </span>
             )}
           </div>
-          <div className="text-sm text-gray-500 mt-1">{card.label}</div>
+          <Tooltip text={metricCardTooltips[card.label]} position="bottom">
+            <span className="text-sm text-gray-500 mt-1 cursor-help border-b border-dashed border-gray-300">
+              {card.label}
+            </span>
+          </Tooltip>
         </div>
       ))}
     </div>
