@@ -4,17 +4,23 @@ import pytest
 from httpx import ASGITransport, AsyncClient
 
 from tool_misuse_detector.analyzer import TraceAnalyzer
+from tool_misuse_detector.cache import AnalysisCache
 from tool_misuse_detector.server import app
 
 
 @pytest.fixture
-async def client():
+async def client(tmp_path):
   # Manually initialize app state since lifespan doesn't run with ASGITransport
   app.state.analyzer = TraceAnalyzer(skip_judge=True)
   app.state.sessions = {}
+  app.state.analysis_tasks = {}
+  app.state.analysis_cache = {}
+  disk_cache = AnalysisCache(tmp_path / "test_cache")
+  app.state.disk_cache = disk_cache
   transport = ASGITransport(app=app)
   async with AsyncClient(transport=transport, base_url="http://test") as ac:
     yield ac
+  disk_cache.close()
 
 
 @pytest.mark.asyncio

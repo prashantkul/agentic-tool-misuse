@@ -14,6 +14,7 @@ class Settings(BaseSettings):
   docent_api_key: str = ""
   judge_model: str = "claude-sonnet-4-20250514"
   judge_max_tokens: int = 1024
+  cache_dir: str = ".toolwatch_cache"
 
 
 settings = Settings()

@@ -14,6 +14,7 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
 from .analyzer import TraceAnalyzer
+from .cache import AnalysisCache
 from .docent_client import fetch_traces, list_collections
 from .models import (
   AnalysisResult,
@@ -27,6 +28,7 @@ from .models import (
   Trace,
   TraceResult,
 )
+from .settings import settings
 from .summarizer import summarize_trace
 
 logger = logging.getLogger(__name__)
@@ -36,9 +38,17 @@ logger = logging.getLogger(__name__)
 async def lifespan(app: FastAPI):
   app.state.analyzer = TraceAnalyzer(skip_judge=False)
   app.state.sessions: dict[str, dict] = {}
-  app.state.analysis_cache: dict[str, CollectionAnalysisState] = {}
   app.state.analysis_tasks: dict[str, asyncio.Task] = {}
+
+  # Initialize disk cache and restore previous analysis results
+  disk_cache = AnalysisCache(settings.cache_dir)
+  app.state.disk_cache = disk_cache
+  app.state.analysis_cache: dict[str, CollectionAnalysisState] = disk_cache.load_all_states()
+  logger.info("Restored %d analysis results from disk cache", len(app.state.analysis_cache))
+
   yield
+
+  disk_cache.close()
 
 
 app = FastAPI(
@@ -174,6 +184,7 @@ async def _run_collection_analysis(
   """Background task: fetch traces from Docent and analyze each one."""
   state = app.state.analysis_cache[collection_id]
   analyzer: TraceAnalyzer = app.state.analyzer
+  disk_cache: AnalysisCache = app.state.disk_cache
 
   try:
     # Fetch traces (blocking I/O — run in thread pool)
@@ -201,14 +212,22 @@ async def _run_collection_analysis(
       state.results.append(trace_result)
       state.analyzed_count += 1
 
+      # Persist incrementally after each trace
+      disk_cache.save_state(collection_id, state)
+
     state.status = "completed"
     state.completed_at = datetime.utcnow()
+
+    # Final persist: state + traces
+    disk_cache.save_state(collection_id, state)
+    disk_cache.save_traces(collection_id, state.traces)
 
   except Exception as exc:
     logger.exception("Collection analysis failed for %s", collection_id)
     state.status = "failed"
     state.error = str(exc)
     state.completed_at = datetime.utcnow()
+    disk_cache.save_state(collection_id, state)
 
 
 @app.get("/api/collections/{collection_id}/results")
@@ -221,7 +240,13 @@ async def api_collection_results(
   """Get cached analysis results for a collection, with optional filters."""
   state = app.state.analysis_cache.get(collection_id)
   if not state:
-    raise HTTPException(status_code=404, detail="No analysis found for this collection")
+    # Try loading from disk cache
+    disk_cache: AnalysisCache = app.state.disk_cache
+    state = disk_cache.load_state(collection_id)
+    if state:
+      app.state.analysis_cache[collection_id] = state
+    else:
+      raise HTTPException(status_code=404, detail="No analysis found for this collection")
 
   results = state.results
 
@@ -256,16 +281,27 @@ async def api_collection_results(
 @app.get("/api/traces/{trace_id:path}/summary")
 async def api_trace_summary(trace_id: str):
   """Get trace summary and full analysis for the detail view."""
+  disk_cache: AnalysisCache = app.state.disk_cache
+
   # Search across all cached collections
   for state in app.state.analysis_cache.values():
     for result in state.results:
       if result.trace_id == trace_id:
-        # Find the matching trace
+        # Find the matching trace (check memory first, then disk)
         trace = None
         for t in state.traces:
           if t.trace_id == trace_id:
             trace = t
             break
+
+        if not trace:
+          # Try loading traces from disk
+          disk_traces = disk_cache.load_traces(state.collection_id)
+          for t in disk_traces:
+            if t.trace_id == trace_id:
+              trace = t
+              break
+
         if not trace:
           raise HTTPException(status_code=404, detail="Trace data not found")
 
